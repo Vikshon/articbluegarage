@@ -13,4 +13,10 @@ client.on('ready', () => {
 	console.log('ready!')
 })
 
+client.on('messageCreate', async msg => {
+	console.log(msg.content)
+	if (msg.content === "heroku")
+		msg.reply("shit")
+})
+
 client.login(token)
