@@ -7,7 +7,6 @@ app.listen(port, () => console.log(`Example app listening at https://localhost:$
 
 const { Client, Intents } = require('discord.js')
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
-const token = 'ODc1MTM3NTQwMTQ1OTQyNTI4.YRRJWA.xksj6dprMIa-aZ6j94hdteQnx-g'
 
 client.on('ready', () => {
 	console.log('ready!')
@@ -19,4 +18,4 @@ client.on('messageCreate', async msg => {
 		msg.reply("shit")
 })
 
-client.login(token)
+client.login(process.env.discordToken)
