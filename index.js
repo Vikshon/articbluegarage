@@ -1,4 +1,4 @@
-const hosting = require('./modules/hosting.js')
+const hosting = require('./modules/hosting.js')()
 const { MessageAttachment, Client, Intents } = require('discord.js')
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
 const fs = require('fs')
