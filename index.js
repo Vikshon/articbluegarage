@@ -9,8 +9,7 @@ client.on('ready', () => {
 
 client.on('messageCreate', async msg => {
 	console.log(msg.content)
-	/*if (msg.content === "heroku") {
-		// msg.reply('test')
+	if (msg.content === "heroku") {
 		require('./modules/nodeHtmlToImage.js')(msg)
 	}
 	else if (msg.content === "canvas") {
@@ -18,8 +17,8 @@ client.on('messageCreate', async msg => {
 		// await ops.getFrames()
 		// let buffer = await ops.makeGif()
 		require('./modules/canvas.js')(msg)
-	}*/
-	if (msg.content === "another")
+	}
+	else if (msg.content === "another")
 		await msg.reply('Я тебя не понял')
 })
 
