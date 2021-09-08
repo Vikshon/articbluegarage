@@ -7,5 +7,5 @@ function requestConnection()
 	app.listen(port, () => console.log(`Example app listening at https://localhost:${port}`))
 }
 module.exports = () => {
-	return requestConnection()
+	return requestConnection
 }
