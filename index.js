@@ -18,7 +18,7 @@ client.on('messageCreate', async msg => {
 		// let buffer = await ops.makeGif()
 		require('./modules/canvas.js')(msg)
 	}*/
-	else if (msg.content === "another")
+	if (msg.content === "another")
 		await msg.reply('Я тебя не понял')
 })
 
