@@ -18,8 +18,12 @@ client.on('messageCreate', async msg => {
 		// let buffer = await ops.makeGif()
 		require('./modules/canvas.js')(msg)
 	}
-	else if (msg.content === "another")
-		await msg.reply('Я тебя не понял')
+	else if (msg.content === "an")
+	{
+		require('./modules/bages.js')(msg)
+		// require('./modules/bagesHandler.js')()
+		// await msg.reply('Я тебя не понял')
+	}
 })
 
-client.login(process.env.discordToken || require('./config.json').discordToken)
+client.login(process.env.discordToken || require('./local.json').discordToken)

@@ -1,6 +1,7 @@
 node_modules
-config.json
 testFrames
 colors.gif
 test.gif
 ui.gif
+local.json
+modules/bagesHandler.js
