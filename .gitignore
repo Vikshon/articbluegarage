@@ -2,6 +2,5 @@ node_modules
 testFrames
 colors.gif
 test.gif
-source/currentBages
 local.json
 modules/bagesHandler.js

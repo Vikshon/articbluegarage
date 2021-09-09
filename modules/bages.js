@@ -85,7 +85,7 @@ function function4(msg)
 }
 
 module.exports = (msg) => {
-	let p = function1().then(function2()).then(function3()).then(function4(msg))
+	let p = function1().then(function2())
 	// p1.then(p2).then(p3)
 	console.log('p4')
 }
