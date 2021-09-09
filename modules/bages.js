@@ -42,8 +42,8 @@ function function2()
 			files = sorted;
 			console.log(files)
 			encoder.start()
-			// await sleep(2000)
-			await sleep(5000)
+			await sleep(2000)
+			// await sleep(5000)
 			for (let i of files)
 			{
 				const image = await Canvas.loadImage(`./source/currentBages/${i}`)
@@ -54,7 +54,7 @@ function function2()
 			}
 			encoder.finish()
 			console.log(encoder.out.getData())
-			await sleep(6000)
+			await sleep(1000)
 			const buffer = await encoder.out.getData()
 			fs.writeFileSync('./source/currentBages/test.gif', encoder.out.getData())
 			console.log('p2')
@@ -86,7 +86,8 @@ function function4(msg)
 }
 
 module.exports = (msg) => {
-	let p = function1().then(function2())
+	fs.existsSync('./source/currentBages') || fs.mkdirSync('./source/currentBages')
+	let p = function1().then(function2()).then(function3()).then(function4(msg))
 	// p1.then(p2).then(p3)
 	console.log('p4')
 }
