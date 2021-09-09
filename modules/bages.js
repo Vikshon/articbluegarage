@@ -42,7 +42,8 @@ function function2()
 			files = sorted;
 			console.log(files)
 			encoder.start()
-			await sleep(2000)
+			// await sleep(2000)
+			await sleep(5000)
 			for (let i of files)
 			{
 				const image = await Canvas.loadImage(`./source/currentBages/${i}`)
@@ -53,7 +54,7 @@ function function2()
 			}
 			encoder.finish()
 			console.log(encoder.out.getData())
-			await sleep(1000)
+			await sleep(6000)
 			const buffer = await encoder.out.getData()
 			fs.writeFileSync('./source/currentBages/test.gif', encoder.out.getData())
 			console.log('p2')
