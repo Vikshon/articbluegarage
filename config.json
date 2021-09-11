@@ -1,3 +1,33 @@
 {
-	"servers" : "0"
+    "bagesSettings": {
+        "default": {
+            "color": "white",
+            "border": "transparent",
+            "bg": "default"
+        },
+        "Haruma_Ito_GS": {
+            "id": "367690368617021440",
+            "color": "white",
+            "border": "transparent",
+            "bg": "default"
+        },
+        "zxc_GS": {
+            "id": "218398638211203073",
+            "color": "yellow",
+            "border": "black",
+            "bg": "ui_172"
+        },
+        "Peshka07_GS": {
+            "id": "337641880995102721",
+            "color": "white",
+            "border": "transparent",
+            "bg": "default"
+        }
+    },
+
+    "channels": {
+    	"guildId": "638442661593874465",
+    	"statusChannelId": "878392201917399132",
+    	"newsChannelId": "877514764828426312"
+    }
 }
