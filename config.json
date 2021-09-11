@@ -3,25 +3,25 @@
         "default": {
             "color": "white",
             "border": "transparent",
-            "bg": "default"
+            "bg": "ui_membercard_0"
         },
         "Haruma_Ito_GS": {
             "id": "367690368617021440",
             "color": "white",
             "border": "transparent",
-            "bg": "default"
+            "bg": "ui_membercard_0"
         },
         "zxc_GS": {
             "id": "218398638211203073",
             "color": "yellow",
             "border": "black",
-            "bg": "ui_172"
+            "bg": "ui_membercard_1"
         },
         "Peshka07_GS": {
             "id": "337641880995102721",
             "color": "white",
             "border": "transparent",
-            "bg": "default"
+            "bg": "ui_membercard_0"
         }
     },
 

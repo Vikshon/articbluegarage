@@ -165,6 +165,27 @@ async function loadSources(map)
     }
 }
 
+function generateName({_min = 1, _max = 100})
+{
+    let files = fs.readdirSync(`./source/bages/available`), rNum, name
+    do
+    {
+        rNum = getRandom({min: _min, max: _max})
+        name = `ui_membercard_${rNum}`
+        files = fs.readdirSync(`./source/bages/available`).filter(file => file.startsWith(`${name}.`))
+    } while(files.length > 0)
+    return name
+}
+
+function getRandom({min = 0, max = 10})
+{
+    min = Math.ceil(min)
+    max = Math.floor(max)
+    return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
 module.exports = {
-	statusInterval
+	statusInterval,
+    generateName,
+    getRandom
 }

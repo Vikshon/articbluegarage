@@ -2,6 +2,7 @@ const { MessageActionRow, MessageButton, MessageAttachment } = require("discord.
 const fs = require('fs');
 var config = require('../../config.json')
 const fetch = require('node-fetch')
+const { generateName } = require('../funcs.js')
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
@@ -79,7 +80,7 @@ module.exports = {
             }
             else if (interaction.options.getSubcommand() === "add")
             {
-                let name = interaction.options.getString('название')
+                let name = await generateName({max: 999999})
                 let url = interaction.options.getString('ссылка')
                 let type
                 if (url.includes('.gif'))
