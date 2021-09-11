@@ -117,6 +117,8 @@ async function makeCanvas(map)
             ctx = canvas.getContext('2d'),
             bg = await Canvas.loadImage(`./source/bages/available/${bgFile}` || `./source/bages/available/${defaultBg}`),
             rankImg = await Canvas.loadImage(`./source/ranks/${map.rank}.svg`),
+            rankPosition = config.bagesSettings[map.name].side,
+            rankImgSize = (rankPosition === "right") ? height : -height,
             name = map.name,
             statistic = `${map.mmr} MMR    ${map.rank}    ${map.kd} kd`,
             tOps = 'Top Operators',
@@ -127,22 +129,25 @@ async function makeCanvas(map)
 
         ctx.drawImage(bg, 0, 0, width, height)
         // Вставляем ранг
-        ctx.drawImage(rankImg, width - height, 0, height, height)
+        if (rankPosition == "right")
+            await ctx.drawImage(rankImg, width - rankImgSize, 0, rankImgSize, rankImgSize)
+        else if (rankPosition == "left")
+            await ctx.drawImage(rankImg, 0, 0, -rankImgSize, -rankImgSize)
         // Настройка текста
         ctx.font = '20px Comfortaa-Bold'
         ctx.fillStyle = config.bagesSettings[name].color || config.bagesSettings.default.color
         // Обводка текста
         ctx.strokeStyle = config.bagesSettings[name].border || config.bagesSettings.default.border
-        ctx.strokeText(name, (width - height ) / 2 - ctx.measureText(name).width / 2, 30)
-        ctx.strokeText(statistic, (width - height) / 2 - ctx.measureText(statistic).width / 2, 60)
-        ctx.strokeText(tOps, (width - height) / 2 - ctx.measureText(tOps).width / 2, 90)
+        ctx.strokeText(name, (width - rankImgSize ) / 2 - ctx.measureText(name).width / 2, 30)
+        ctx.strokeText(statistic, (width - rankImgSize) / 2 - ctx.measureText(statistic).width / 2, 60)
+        ctx.strokeText(tOps, (width - rankImgSize) / 2 - ctx.measureText(tOps).width / 2, 90)
         // Сам текст
-        ctx.fillText(name, (width - height) / 2 - ctx.measureText(name).width / 2, 30)
-        ctx.fillText(statistic, (width - height) / 2 - ctx.measureText(statistic).width / 2, 60)
-        ctx.fillText(tOps, (width - height) / 2 - ctx.measureText(tOps).width / 2, 90)
-        ctx.drawImage(firstOp, (width - height) / 2 - opIconsSize / 2 - 10 - opIconsSize, 100, opIconsSize, opIconsSize)
-        ctx.drawImage(secondOp, (width - height) / 2 - opIconsSize / 2, 100, opIconsSize, opIconsSize)
-        ctx.drawImage(thirdOp, (width - height) / 2 + opIconsSize / 2 + 10, 100, opIconsSize, opIconsSize)
+        ctx.fillText(name, (width - rankImgSize) / 2 - ctx.measureText(name).width / 2, 30)
+        ctx.fillText(statistic, (width - rankImgSize) / 2 - ctx.measureText(statistic).width / 2, 60)
+        ctx.fillText(tOps, (width - rankImgSize) / 2 - ctx.measureText(tOps).width / 2, 90)
+        ctx.drawImage(firstOp, (width - rankImgSize) / 2 - opIconsSize / 2 - 10 - opIconsSize, 100, opIconsSize, opIconsSize)
+        ctx.drawImage(secondOp, (width - rankImgSize) / 2 - opIconsSize / 2, 100, opIconsSize, opIconsSize)
+        ctx.drawImage(thirdOp, (width - rankImgSize) / 2 + opIconsSize / 2 + 10, 100, opIconsSize, opIconsSize)
 
         // Аватарку можно вставить
         await fs.writeFileSync(`./source/bages/current/${map.name}${bgType}`, canvas.toBuffer())

@@ -9,9 +9,9 @@ client.on('ready', () => {
 	console.log('ready!')
 	console.log(client.commands.map(cmd => cmd.data.name))
 
-	let updateStatus = setInterval(function() {
+	updateStatus = setInterval(function() {
 		funcs.statusInterval(client)
-	}, 1000 * 60 * 5)
+	}, 1000 * 30)
 })
 
 client.on('interactionCreate', async interaction => {
@@ -29,21 +29,8 @@ client.on('interactionCreate', async interaction => {
 
 client.on('messageCreate', async msg => {
 	console.log(msg.content)
-	if (msg.content === "heroku") {
-		require('./modules/nodeHtmlToImage.js')(msg)
-	}
-	else if (msg.content === "canvas") {
-		// let ops = require('./modules/canvas.js')
-		// await ops.getFrames()
-		// let buffer = await ops.makeGif()
-		require('./modules/canvas.js')(msg)
-	}
-	else if (msg.content === "an")
-	{
-		require('./modules/bages.js')(msg)
-		// require('./modules/bagesHandler.js')()
-		// await msg.reply('Я тебя не понял')
-	}
+	if (msg.content === 'timer')
+		await msg.reply('Чего?')
 })
 
 client.login(process.env.discordToken || require('./local.json').discordToken)

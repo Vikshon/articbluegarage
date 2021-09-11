@@ -22,19 +22,13 @@ module.exports = {
                         .setName('add')
                         .setDescription('Добавляет фон в список')
                         .addStringOption(option =>
-        // УБРАТЬ НАЗВАНИЕ
-                            option
-                                .setName('название')
-                                .setDescription('Название для картинки, будет отображаться в списке')
-                                .setRequired(true))
-                        .addStringOption(option =>
                             option
                                 .setName('ссылка')
                                 .setDescription('Ссылка на картинку (png/jpg/gif)')
                                 .setRequired(true))
                 )
-        ),
-        /*.addSubcommandGroup(scg => 
+        )
+        .addSubcommandGroup(scg => 
             scg
                 .setName('set')
                 .setDescription('Описание')
@@ -45,7 +39,7 @@ module.exports = {
                         .addStringOption(option =>
                             option
                                 .setName('цвет')
-                                .setDescription('Цвет на английском')
+                                .setDescription('Цвет текста (на английском)')
                                 .setRequired(true)))
                 .addSubcommand(sc =>
                     sc
@@ -54,9 +48,20 @@ module.exports = {
                         .addStringOption(option =>
                             option
                                 .setName('цвет')
-                                .setDescription('Цвет на английском')
+                                .setDescription('Цвет обводки текста (на английском)')
                                 .setRequired(true)))
-        ),*/
+                .addSubcommand(sc =>
+                    sc
+                        .setName('side')
+                        .setDescription('С какой стороны расположить изображение ранга')
+                        .addStringOption(option =>
+                            option
+                                .setName('сторона')
+                                .setDescription('Цвет текста (на английском)')
+                                .setRequired(true)
+                                .addChoice('left', 'left')
+                                .addChoice('right', 'right')))
+        ),
 	async execute(interaction) {
         if (interaction.options.getSubcommandGroup() === "list")
         {
@@ -97,7 +102,7 @@ module.exports = {
                 await interaction.reply({content: `Фон ${name} успешно добавлен.`, ephemeral: true})
             }
         }
-        /*else if (interaction.options.getSubcommandGroup() === "set")
+        else if (interaction.options.getSubcommandGroup() === "set")
         {
             if (interaction.options.getSubcommand() === "color")
             {
@@ -126,6 +131,18 @@ module.exports = {
                 fs.writeFileSync('./config.json', JSON.stringify(config));
                 await interaction.reply({content: `Вы установили цвет рамки на ${color}.`, ephemeral: true})
             }
-        }*/
+            else if (interaction.options.getSubcommand() === "side")
+            {
+                let _side = interaction.options.getString('сторона')
+                let userId = interaction.user.id
+                for (let i in config.bagesSettings)
+                {
+                    if (config.bagesSettings[i].id === userId)
+                        config.bagesSettings[i].side = _side
+                }
+                fs.writeFileSync('./config.json', JSON.stringify(config));
+                await interaction.reply({content: `Вы изменили сторону изображения ранга на ${_side}.`, ephemeral: true})
+            }
+        }
 	},
 };
