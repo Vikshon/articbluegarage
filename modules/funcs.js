@@ -107,8 +107,8 @@ async function makeCanvas(map)
     await sleep(1000)
     if (bgType == ".gif")
     {
-        animateBage(map, bgFile)
-        await sleep(7000)
+        await animateBage(map, bgFile)
+        await sleep(13000)
     }
     else
     {

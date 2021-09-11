@@ -70,7 +70,7 @@ module.exports = {
                 if (!fs.existsSync('./source/bages/available') || fs.readdirSync('./source/bages/available').length < 1)
                     return interaction.reply("Список фонов пуст")
                 const bages = fs.readdirSync('./source/bages/available')
-                await interaction.channel.send({content: "Список доступных фонов:"})
+                await interaction.reply({content: "Список доступных фонов:"})
                 for (let i of bages)
                 {
                     const row = new MessageActionRow()
@@ -115,7 +115,7 @@ module.exports = {
                         config.bagesSettings[i].color = color;
                 }
                 console.log(config)
-                fs.writeFileSync('./config.json', JSON.stringify(config));
+                fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'));
                 await interaction.reply({content: `Вы установили цвет текста на ${color}.`, ephemeral: true})
             }
             else if (interaction.options.getSubcommand() === "border")
@@ -128,7 +128,7 @@ module.exports = {
                         config.bagesSettings[i].border = color;
                 }
                 console.log(config)
-                fs.writeFileSync('./config.json', JSON.stringify(config));
+                fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'));
                 await interaction.reply({content: `Вы установили цвет рамки на ${color}.`, ephemeral: true})
             }
             else if (interaction.options.getSubcommand() === "side")
@@ -140,7 +140,7 @@ module.exports = {
                     if (config.bagesSettings[i].id === userId)
                         config.bagesSettings[i].side = _side
                 }
-                fs.writeFileSync('./config.json', JSON.stringify(config));
+                fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'));
                 await interaction.reply({content: `Вы изменили сторону изображения ранга на ${_side}.`, ephemeral: true})
             }
         }
