@@ -15,7 +15,7 @@
 		},
 		"zxc_GS": {
 			"id": "218398638211203073",
-			"color": "yellow",
+			"color": "black",
 			"border": "black",
 			"bg": "ui_membercard_72",
 			"side": "left"
@@ -32,5 +32,8 @@
 		"guildId": "638442661593874465",
 		"statusChannelId": "878392201917399132",
 		"newsChannelId": "877514764828426312"
-	}
+	},
+	"groups": [
+		"r6sclub"
+	]
 }

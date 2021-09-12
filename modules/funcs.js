@@ -189,8 +189,117 @@ function getRandom({min = 0, max = 10})
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
+async function newsInterval(client)
+{
+    let groups = config.groups
+    groups.forEach(async name => {
+        try {
+            let items = await fetch(`https://api.vk.com/method/wall.get?domain=${name}&count=5&v=5.131&access_token=${process.env['vkToken'] || require('../local.json').vkToken}`).then(data => data.json()).then(json => json.response.items)
+            if (items[0].is_pinned)
+                items.splice(0, 1)
+            const lastPost = items[0]
+            let fl = await ComparePostNMessage(lastPost, client)
+            if (fl != 1) {
+                return
+            }
+            let attachments = []
+            if (lastPost.attachments)
+                attachments = await getAttachments(lastPost)
+            await makePost(attachments, lastPost, client)
+        }
+        catch (e) {
+            console.log(e)
+        }
+    })
+}
+
+async function ComparePostNMessage(lastPost, client)
+{
+    // Можно добавить проверку на прикрепы и убрать дату из пустых постов
+    let fl = 1
+    let lastPostText = lastPost.text
+    let date = lastPost.date * 1000
+    let currentDate = Date.now()
+    let diffInHours = Math.floor((currentDate - date) / (1000 * 3600))
+    let edited = lastPost.edited
+    let isAds = lastPost.marked_as_ads
+    let messages = await client.channels.cache.get(config.channels.newsChannelId).messages.fetch({limit: 10})
+
+    if (isAds || edited || (diffInHours > 1)) 
+        return 0
+    messages.forEach(msg => {
+        if (msg.content == date || msg.content.startsWith(lastPostText))
+            fl = 0
+    })
+    return fl
+}
+
+async function getAttachments(lastPost)
+{
+    return await (async function() {
+        let count = lastPost.attachments.length
+        // let videos = [], photos = []
+        let links = []
+        for (let i = 0; i < count; i++)
+        {
+            let path = lastPost.attachments[i].photo || lastPost.attachments[i].video || lastPost.attachments[i].doc || lastPost.attachments[i].doc.link
+            let type = lastPost.attachments[i].type
+            // Возможно не стоит fetch'ить видео, если всё равно кидает только ссылку?
+            if (type == "video")
+            {
+                const owner_id = path.owner_id, id = path.id, access_key = path.access_key;
+                const response = await fetch(`https://api.vk.com/method/video.get?videos=${owner_id}_${id}_${access_key}&v=5.131&access_token=${process.env['vkToken']}`)
+                const data = await response.json()
+                let link = data.response.items[0].player;
+                // Обрезаю ссылки, для нормального отображения в сообщении (с превью). Если ютуб, то одно, вк, другое, и тд.
+                if (link.includes("youtube"))
+                {
+                    link = link.replace("embed/", "watch?v=")
+                    link = link.replace("?__ref=vk.api", "")
+                }
+                else if (link.includes("video_ext.php"))
+                {
+                    link = link.replace("_ext.php?oid=", "")
+                    link = link.replace("&id=", "_")
+                    let ind = link.indexOf("&hash")
+                    link = link.slice(0, ind)
+                }
+                links.push(link)
+            }
+            else if (type == "photo")
+            {
+                let map = new Map()
+                for (let i of path.sizes)
+                    map.set(i.height * i.width, i.url)            
+                let maxSize = Math.max(...map.keys())
+                let url = map.get(maxSize)
+                links.push(url)
+            }
+            else {
+                return 0
+            }
+        }
+        return links
+    })()
+}
+
+async function makePost(attachments, lastPost, client)
+{
+    try {
+        if (attachments.length > 0)
+            await client.channels.cache.get(config.channels.newsChannelId).send({content: lastPost.text || (lastPost.date * 1000), files: attachments})
+        else
+            await client.channels.cache.get(config.channels.newsChannelId).send({content: lastPost.text || (lastPost.date * 1000)})
+    }
+    catch (e) {
+        console.log(e)
+    }
+}
+
 module.exports = {
 	statusInterval,
     generateName,
-    getRandom
+    getRandom,
+    // 
+    newsInterval
 }

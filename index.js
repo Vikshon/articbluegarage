@@ -11,10 +11,13 @@ client.on('ready', () => {
 	console.log(client.commands.map(cmd => cmd.data.name))
 
 	funcs.statusInterval(client)
-
-	updateStatus = setInterval(function() {
+	let updateStatus = setInterval(function() {
 		funcs.statusInterval(client)
 	}, 1000 * 60 * 5)
+
+	let newsInterval = setInterval(function() {
+		funcs.newsInterval(client)
+	}, 1000 * 5)
 })
 
 client.on('interactionCreate', async interaction => {
