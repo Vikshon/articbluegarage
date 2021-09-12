@@ -114,9 +114,10 @@ module.exports = {
                     if (config.bagesSettings[i].id === userId)
                         config.bagesSettings[i].color = color;
                 }
-                console.log(config)
                 fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'));
                 await interaction.reply({content: `Вы установили цвет текста на ${color}.`, ephemeral: true})
+                // Обновляем
+                funcs.statusInterval()
             }
             else if (interaction.options.getSubcommand() === "border")
             {
@@ -127,9 +128,10 @@ module.exports = {
                     if (config.bagesSettings[i].id === userId)
                         config.bagesSettings[i].border = color;
                 }
-                console.log(config)
                 fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'));
                 await interaction.reply({content: `Вы установили цвет рамки на ${color}.`, ephemeral: true})
+                // Обновляем
+                funcs.statusInterval()
             }
             else if (interaction.options.getSubcommand() === "side")
             {
@@ -142,6 +144,8 @@ module.exports = {
                 }
                 fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'));
                 await interaction.reply({content: `Вы изменили сторону изображения ранга на ${_side}.`, ephemeral: true})
+                // Обновляем
+                funcs.statusInterval()
             }
         }
 	},
