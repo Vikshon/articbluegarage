@@ -2,8 +2,8 @@ const { MessageActionRow, MessageButton, MessageAttachment } = require("discord.
 const fs = require('fs');
 var config = require('../../config.json')
 const fetch = require('node-fetch')
-const { generateName } = require('../funcs.js')
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const funcs = require('../funcs.js')
+const { SlashCommandBuilder } = require('@discordjs/builders')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -85,7 +85,7 @@ module.exports = {
             }
             else if (interaction.options.getSubcommand() === "add")
             {
-                let name = await generateName({max: 999999})
+                let name = await funcs.generateName({max: 999999})
                 let url = interaction.options.getString('ссылка')
                 let type
                 if (url.includes('.gif'))
@@ -116,8 +116,6 @@ module.exports = {
                 }
                 fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'));
                 await interaction.reply({content: `Вы установили цвет текста на ${color}.`, ephemeral: true})
-                // Обновляем
-                funcs.statusInterval()
             }
             else if (interaction.options.getSubcommand() === "border")
             {
@@ -130,8 +128,6 @@ module.exports = {
                 }
                 fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'));
                 await interaction.reply({content: `Вы установили цвет рамки на ${color}.`, ephemeral: true})
-                // Обновляем
-                funcs.statusInterval()
             }
             else if (interaction.options.getSubcommand() === "side")
             {
@@ -144,8 +140,6 @@ module.exports = {
                 }
                 fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'));
                 await interaction.reply({content: `Вы изменили сторону изображения ранга на ${_side}.`, ephemeral: true})
-                // Обновляем
-                funcs.statusInterval()
             }
         }
 	},

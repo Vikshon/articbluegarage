@@ -16,7 +16,7 @@
 		"zxc_GS": {
 			"id": "218398638211203073",
 			"color": "black",
-			"border": "black",
+			"border": "red",
 			"bg": "ui_membercard_72",
 			"side": "left"
 		},

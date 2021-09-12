@@ -17,7 +17,7 @@ module.exports = client => {
 		// Для коллектора команд
 		client.commands.set(command.data.name, command)
 	}
-	console.log(commands);
+	// console.log(commands);
 
 	(async () => {
 		try
