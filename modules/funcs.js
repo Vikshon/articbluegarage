@@ -296,6 +296,10 @@ async function makePost(attachments, lastPost, client)
 {
     console.log('[debugger] News post')
     try {
+        if (lastPost.text.length > 2000) {
+            console.log('Слишком длинный текст!')
+            return
+        }
         let str = ""
         for (let a of attachments)
             str += `${a},`

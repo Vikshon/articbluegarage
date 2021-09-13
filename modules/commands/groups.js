@@ -40,7 +40,7 @@ module.exports = {
 		}
 		else if (interaction.options.getSubcommand() === "add")
 		{
-			// https://vk.com/tomclancyrainbowsix
+			console.log(fs.readdirSync('./'))
 			let url = interaction.options.getString('ссылка')
 			let name = url.slice(url.lastIndexOf('/') + 1)
 			let groups = config.groups
@@ -50,7 +50,7 @@ module.exports = {
 			if (groups.includes(name))
 				return await interaction.reply({content: `Ошибка! Данная группа уже мониторися`, ephemeral: true})
 			config.groups.push(name)
-            fs.writeFileSync('../../config.json', JSON.stringify(config, null, '\t'))
+            fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'))
             return await interaction.reply({content: `Группа ${name} успешно добавлена в мониторинг!`, ephemeral: true})
 		}
 		else if (interaction.options.getSubcommand() === "remove")
@@ -62,7 +62,7 @@ module.exports = {
 			if (groups.length < 1)
 				return await interaction.reply({content: `Ошибка! Список пуст`, ephemeral: true})
 			config.groups.splice(config.groups.indexOf(name), 1)
-            fs.writeFileSync('../../config.json', JSON.stringify(config, null, '\t'))
+            fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'))
             return await interaction.reply({content: `Группа ${name} удалена из мониторинга!`, ephemeral: true})
 		}
 	},
