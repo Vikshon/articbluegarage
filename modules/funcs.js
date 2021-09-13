@@ -296,8 +296,13 @@ async function makePost(attachments, lastPost, client)
 {
     console.log('[debugger] News post')
     try {
+        let str = ""
+        for (let a of attachments)
+            str += `${a},`
+        str = str.replaceAll(',', '\n')
+        console.log(str)
         if (attachments.length > 0)
-            await client.channels.cache.get(config.channels.newsChannelId).send({content: lastPost.text || (lastPost.date * 1000), files: attachments})
+            await client.channels.cache.get(config.channels.newsChannelId).send({content: (lastPost.text || (lastPost.date * 1000)) + `\n\n● Ссылки:\n${str}`})
         else
             await client.channels.cache.get(config.channels.newsChannelId).send({content: lastPost.text || (lastPost.date * 1000)})
     }
