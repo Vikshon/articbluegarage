@@ -126,7 +126,7 @@ module.exports = {
                     if (config.bagesSettings[i].id === userId)
                         config.bagesSettings[i].border = color;
                 }
-                fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'));
+                fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'))
                 await interaction.reply({content: `Вы установили цвет рамки на ${color}.`, ephemeral: true})
             }
             else if (interaction.options.getSubcommand() === "side")

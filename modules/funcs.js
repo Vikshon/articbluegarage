@@ -194,7 +194,7 @@ async function newsInterval(client)
     let groups = config.groups
     groups.forEach(async name => {
         try {
-            let items = await fetch(`https://api.vk.com/method/wall.get?domain=${name}&count=5&v=5.131&access_token=${process.env['vkToken'] || require('../local.json').vkToken}`).then(data => data.json()).then(json => json.response.items)
+            let items = await fetch(`https://api.vk.com/method/wall.get?domain=${name}&count=5&v=5.131&access_token=${process.env.vkToken || require('../local.json').vkToken}`).then(data => data.json()).then(json => json.response.items)
             if (items[0].is_pinned)
                 items.splice(0, 1)
             const lastPost = items[0]
@@ -225,7 +225,7 @@ async function ComparePostNMessage(lastPost, client)
     let isAds = lastPost.marked_as_ads
     let messages = await client.channels.cache.get(config.channels.newsChannelId).messages.fetch({limit: 10})
 
-    if (isAds || edited || (diffInHours > 1)) 
+    if (isAds || edited/* || (diffInHours > 1)*/) 
         return 0
     messages.forEach(msg => {
         if (msg.content == date || msg.content.startsWith(lastPostText))
@@ -274,6 +274,10 @@ async function getAttachments(lastPost)
                 let maxSize = Math.max(...map.keys())
                 let url = map.get(maxSize)
                 links.push(url)
+            }
+            else if (type == "doc")
+            {
+                links.push(path.url)
             }
             else {
                 return 0
