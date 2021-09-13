@@ -22,9 +22,9 @@ async function statusInterval(client)
 			map.set(nicknames[i], await getStats(nicknames[i]))
 			let attachment = await makeCanvas(map.get(nicknames[i]), nicknames[i])
             let at = new MessageAttachment('./source/bages/current/' + nicknames[i] + attachment)
-        console.log('[debugger] Status update...')
             await client.channels.cache.get(config.channels.statusChannelId).send({ files: [at] })
 		}
+        console.log('[debugger] Status update...')
 
         // Плохой вариант, ведь если их станет больше...
         /*
@@ -245,13 +245,13 @@ async function getAttachments(lastPost)
         {
             let path = lastPost.attachments[i].photo || lastPost.attachments[i].video || lastPost.attachments[i].doc || lastPost.attachments[i].doc.link
             let type = lastPost.attachments[i].type
+            const owner_id = path.owner_id, id = path.id, access_key = path.access_key
             // Возможно не стоит fetch'ить видео, если всё равно кидает только ссылку?
             if (type == "video")
             {
-                const owner_id = path.owner_id, id = path.id, access_key = path.access_key;
-                const response = await fetch(`https://api.vk.com/method/video.get?videos=${owner_id}_${id}_${access_key}&v=5.131&access_token=${process.env['vkToken']}`)
+                const response = await fetch(`https://api.vk.com/method/video.get?videos=${owner_id}_${id}_${access_key}&v=5.131&access_token=${process.env.vkToken || require(`../local.json`).vkToken}`)
                 const data = await response.json()
-                let link = data.response.items[0].player;
+                let link = data.response.items[0].player
                 // Обрезаю ссылки, для нормального отображения в сообщении (с превью). Если ютуб, то одно, вк, другое, и тд.
                 if (link.includes("youtube"))
                 {
@@ -278,6 +278,10 @@ async function getAttachments(lastPost)
             }
             else if (type == "doc")
             {
+                console.log(path.url)
+                console.log(`https://api.vk.com/method/docs.getById?docs=${owner_id}_${id}_${access_key}&v5.131&access_token=`)
+                let res = await fetch(`https://api.vk.com/method/docs.getById?docs=${owner_id}_${id}_${access_key}&v5.131&access_token=${process.env.vkToken || require(`../local.json`).vkToken}`).then(data => data.json())
+                console.log(res)
                 links.push(path.url)
             }
             else {

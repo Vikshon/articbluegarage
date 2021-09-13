@@ -54,7 +54,6 @@ client.on('interactionCreate', async interaction => {
 })
 
 client.on('messageCreate', async msg => {
-	console.log(msg.content)
 	if (msg.content === 'timer')
 		await msg.reply('Чего?')
 })
