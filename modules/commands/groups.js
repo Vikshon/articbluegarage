@@ -36,11 +36,10 @@ module.exports = {
 		{
 			let groups = config.groups
 			console.log(groups.toString())
-			await interaction.reply({content: `Группы которые бот мониторит в данный момент: ${groups}`, ephemeral: true})
+			await interaction.reply({content: `Группы которые бот мониторит в данный момент: ${groups}`})
 		}
 		else if (interaction.options.getSubcommand() === "add")
 		{
-			console.log(fs.readdirSync('./'))
 			let url = interaction.options.getString('ссылка')
 			let name = url.slice(url.lastIndexOf('/') + 1)
 			let groups = config.groups
@@ -51,7 +50,7 @@ module.exports = {
 				return await interaction.reply({content: `Ошибка! Данная группа уже мониторися`, ephemeral: true})
 			config.groups.push(name)
             fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'))
-            return await interaction.reply({content: `Группа ${name} успешно добавлена в мониторинг!`, ephemeral: true})
+            return await interaction.reply({content: `Группа ${name} успешно добавлена в мониторинг!`})
 		}
 		else if (interaction.options.getSubcommand() === "remove")
 		{
@@ -63,7 +62,7 @@ module.exports = {
 				return await interaction.reply({content: `Ошибка! Список пуст`, ephemeral: true})
 			config.groups.splice(config.groups.indexOf(name), 1)
             fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'))
-            return await interaction.reply({content: `Группа ${name} удалена из мониторинга!`, ephemeral: true})
+            return await interaction.reply({content: `Группа ${name} удалена из мониторинга!`})
 		}
 	},
 }

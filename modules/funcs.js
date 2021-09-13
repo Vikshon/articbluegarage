@@ -278,11 +278,9 @@ async function getAttachments(lastPost)
             }
             else if (type == "doc")
             {
-                console.log(path.url)
-                console.log(`https://api.vk.com/method/docs.getById?docs=${owner_id}_${id}_${access_key}&v5.131&access_token=`)
-                let res = await fetch(`https://api.vk.com/method/docs.getById?docs=${owner_id}_${id}_${access_key}&v5.131&access_token=${process.env.vkToken || require(`../local.json`).vkToken}`).then(data => data.json())
-                console.log(res)
-                links.push(path.url)
+                // if gif
+                let url = await fetch(path.url).then(data => data.url)
+                links.push(url)
             }
             else {
                 return 0
