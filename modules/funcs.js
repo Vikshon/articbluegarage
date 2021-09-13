@@ -22,6 +22,7 @@ async function statusInterval(client)
 			map.set(nicknames[i], await getStats(nicknames[i]))
 			let attachment = await makeCanvas(map.get(nicknames[i]), nicknames[i])
             let at = new MessageAttachment('./source/bages/current/' + nicknames[i] + attachment)
+        console.log('[debugger] Status update...')
             await client.channels.cache.get(config.channels.statusChannelId).send({ files: [at] })
 		}
 
@@ -225,7 +226,7 @@ async function ComparePostNMessage(lastPost, client)
     let isAds = lastPost.marked_as_ads
     let messages = await client.channels.cache.get(config.channels.newsChannelId).messages.fetch({limit: 10})
 
-    if (isAds || edited/* || (diffInHours > 1)*/) 
+    if (isAds || edited || (diffInHours > 1)) 
         return 0
     messages.forEach(msg => {
         if (msg.content == date || msg.content.startsWith(lastPostText))
@@ -289,6 +290,7 @@ async function getAttachments(lastPost)
 
 async function makePost(attachments, lastPost, client)
 {
+    console.log('[debugger] News post')
     try {
         if (attachments.length > 0)
             await client.channels.cache.get(config.channels.newsChannelId).send({content: lastPost.text || (lastPost.date * 1000), files: attachments})
