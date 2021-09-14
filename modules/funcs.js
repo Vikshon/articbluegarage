@@ -279,6 +279,9 @@ async function getAttachments(lastPost)
             else if (type == "doc")
             {
                 // if gif
+                console.log(`[debugger] Type doc:`);
+                console.log(path.url)
+                console.log(`https://api.vk.com/method/video.get?videos=${owner_id}_${id}_${access_key}&v=5.131&access_token=`)
                 let url = await fetch(path.url).then(data => data.url)
                 links.push(url)
             }
@@ -297,14 +300,15 @@ async function makePost(attachments, lastPost, client)
         if (lastPost.text.length > 2000) {
             console.log('Слишком длинный текст!')
             return
-        }
-        let str = ""
-        for (let a of attachments)
-            str += `${a},`
-        str = str.replaceAll(',', '\n')
-        console.log(str)
+        }            
         if (attachments.length > 0)
-            await client.channels.cache.get(config.channels.newsChannelId).send({content: (lastPost.text || (lastPost.date * 1000)) + `\n\n● Ссылки:\n${str}`})
+        {
+            let str = "\n\n● Ссылки:\n"
+            for (let a of attachments)
+                str += `${a},`
+            str = str.replaceAll(',', '\n')
+            await client.channels.cache.get(config.channels.newsChannelId).send({content: (lastPost.text || (lastPost.date * 1000)) + str})
+        }
         else
             await client.channels.cache.get(config.channels.newsChannelId).send({content: lastPost.text || (lastPost.date * 1000)})
     }
